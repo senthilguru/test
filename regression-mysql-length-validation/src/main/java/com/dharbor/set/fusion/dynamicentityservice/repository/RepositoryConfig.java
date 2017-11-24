@@ -30,6 +30,5 @@ public class RepositoryConfig extends RepositoryRestConfigurerAdapter {
          	config.exposeIdsFor(Department.class);
          	config.exposeIdsFor(Lengthmax.class);
          	config.exposeIdsFor(Employee.class);
-         	config.exposeIdsFor(Lengthmin.class);
     }
 }
