@@ -24,14 +24,19 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
-import com.dharbor.set.fusion.dynamicentityservice.model.Lengthmax;
+import com.dharbor.set.fusion.dynamicentityservice.model.Departments;
 import com.dharbor.set.fusion.dynamicentityservice.enums.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
-@Api(tags = "Lengthmax:")
+@Api(tags = "Departments:")
 @RepositoryRestResource
-public interface LengthmaxRepository extends JpaRepository<Lengthmax, Long>{
+public interface DepartmentsRepository extends JpaRepository<Departments, Long>{
+    @Transactional
+    List<Departments> findByDeptId(
+             @Param("deptId") @RequestParam("deptId") String deptId
+    );
+
 }

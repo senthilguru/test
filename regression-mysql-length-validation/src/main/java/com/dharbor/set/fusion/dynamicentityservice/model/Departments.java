@@ -13,25 +13,68 @@ Copyright © 2002-2017, Digital Harbor, Inc. All rights reserved. No part of thi
 icons, may be reproduced, stored in a retrieval system, or transmitted in any form by any means, electronic, mechanical,
 photocopying, recording, or otherwise, without written permission of Digital Harbor.*/
 
-package com.dharbor.set.fusion.dynamicentityservice.repository;
+package com.dharbor.set.fusion.dynamicentityservice.model;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.format.annotation.DateTimeFormat;
-import com.dharbor.set.fusion.dynamicentityservice.model.Lengthmin;
+import java.io.Serializable;
 import com.dharbor.set.fusion.dynamicentityservice.enums.*;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Date;
+import java.util.UUID;
+import java.util.List;
+import java.util.Map;
+import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 
-import java.util.*;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import org.springframework.data.rest.core.annotation.RestResource;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-@Api(tags = "Lengthmin:")
-@RepositoryRestResource
-public interface LengthminRepository extends JpaRepository<Lengthmin, Long>{
+@Table(
+        indexes = {
+            @Index(
+                name = "findByDeptId",
+                columnList = "deptId"
+            )
+        }
+)
+@Entity
+public @Data class Departments implements BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @OneToOne(
+    )
+    @JoinColumn(unique = true)
+    @RestResource(exported = false)
+ 	private Employee watcher;
+
+    @Length(max = 255)
+ 	private String deptName;
+
+ 	private Date createdDate;
+
+    @Enumerated(EnumType.STRING)
+ 	private DepartmentGroup depot = DepartmentGroup.CIVIL;
+
+    @NotBlank(message = "deptId is required")
+    @Length(max = 255)
+ 	private String deptId;
+
+    public void onBeforeCreate() {
+        Date sysDate = new Date();
+        createdDate=sysDate;
+        createdDate=sysDate;
+    }
+
+    public void onBeforeSave() {
+        Date sysDate = new Date();
+        createdDate=sysDate;
+    }
+
 }
+
